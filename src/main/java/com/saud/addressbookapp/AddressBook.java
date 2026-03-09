@@ -64,31 +64,5 @@ public class AddressBook {
     }
     
     
-    // Search by City
-    public static void searchPersonByCity(Map<String, AddressBook> addressBooks, String city) {
-
-        addressBooks.values()
-                .stream()
-                .flatMap(book -> book.getContacts().stream())
-                .filter(contact -> contact.city.equalsIgnoreCase(city))
-                .forEach(contact -> contact.displayContact());
-    }
-    
-    
-    // Search by State
-    public static void searchPersonByState(Map<String, AddressBook> addressBooks, String state) {
-
-        addressBooks.values()
-                .stream()
-                .flatMap(book -> book.getContacts().stream())
-                .filter(contact -> contact.state.equalsIgnoreCase(state))
-                .forEach(contact -> contact.displayContact());
-    }
-    
-    // get contact list
-    public ArrayList<Contact> getContacts() {
-        return contactList;
-    }
-    
     
 }
