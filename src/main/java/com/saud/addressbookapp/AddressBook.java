@@ -1,4 +1,4 @@
-package com.saud.addressbookapp;
+package com.addressbook;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -152,6 +152,13 @@ public class AddressBook {
                 .count();
 
         System.out.println("Number of contacts in " + state + " : " + count);
+    }
+    
+    public void sortContactsByName() {
+
+        contactList.stream()
+                .sorted((c1, c2) -> c1.firstName.compareToIgnoreCase(c2.firstName))
+                .forEach(Contact::displayContact);
     }
     
    
