@@ -87,6 +87,7 @@ public class AddressBookMain {
             System.out.println("13 Sort by State");
             System.out.println("14 Sort by Zip");
             System.out.println("15 Write Contacts to File");
+            System.out.println("15 Write Contacts to File");
             System.out.println("16 Back");
 
             System.out.print("Enter choice: ");
@@ -219,7 +220,12 @@ public class AddressBookMain {
                     break;
                     
                 case 16:
+                    book.writeContactsToCSV();
+                    break;
+                    
+                case 17:
                     return;
+                    
                     
                 default:
                     System.out.println("Invalid choice");
