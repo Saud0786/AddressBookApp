@@ -1,5 +1,7 @@
 package com.saud.addressbookapp;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class AddressBookMain {
@@ -8,25 +10,51 @@ public class AddressBookMain {
 
         Scanner sc = new Scanner(System.in);
 
-        AddressBook addressBook = new AddressBook();
+        // Dictionary of AddressBookName -> AddressBook
+        Map<String, AddressBook> addressBooks = new HashMap<>();
 
-        System.out.println("Welcome to Address Book Program");
+        System.out.println("Welcome to Address Book System");
 
-        while(true) {
+        while (true) {
 
-            System.out.println("\n1. Add Contact");
-            System.out.println("2. Display Contacts");
-            System.out.println("3. Edit Contact");
-            System.out.println("4. Delete Contact");
-            System.out.println("5. Exit");
+            System.out.println("\n1. Create New Address Book");
+            System.out.println("2. Add Contact");
+            System.out.println("3. Display Contacts");
+            System.out.println("4. Edit Contact");
+            System.out.println("5. Delete Contact");
+            System.out.println("6. Exit");
 
-            System.out.print("Enter your choice: ");
+            System.out.print("Enter choice: ");
             int choice = sc.nextInt();
             sc.nextLine();
 
-            switch(choice) {
+            switch (choice) {
 
                 case 1:
+
+                    System.out.println("Enter Address Book Name:");
+                    String bookName = sc.nextLine();
+
+                    if(addressBooks.containsKey(bookName)) {
+                        System.out.println("Address Book already exists");
+                    } else {
+                        addressBooks.put(bookName, new AddressBook());
+                        System.out.println("Address Book created successfully");
+                    }
+
+                    break;
+
+                case 2:
+
+                    System.out.println("Enter Address Book Name:");
+                    bookName = sc.nextLine();
+
+                    AddressBook book = addressBooks.get(bookName);
+
+                    if(book == null) {
+                        System.out.println("Address Book not found");
+                        break;
+                    }
 
                     System.out.println("Enter First Name:");
                     String firstName = sc.nextLine();
@@ -54,41 +82,68 @@ public class AddressBookMain {
 
                     Contact contact = new Contact(firstName,lastName,address,city,state,zip,phone,email);
 
-                    addressBook.addContact(contact);
-
-                    break;
-
-                case 2:
-
-                    addressBook.displayContacts();
+                    book.addContact(contact);
 
                     break;
 
                 case 3:
 
-                    System.out.println("Enter name to edit:");
-                    String editName = sc.nextLine();
+                    System.out.println("Enter Address Book Name:");
+                    bookName = sc.nextLine();
 
-                    addressBook.editContact(editName);
+                    book = addressBooks.get(bookName);
+
+                    if(book != null)
+                        book.displayContacts();
+                    else
+                        System.out.println("Address Book not found");
 
                     break;
 
                 case 4:
 
-                    System.out.println("Enter name to delete:");
-                    String deleteName = sc.nextLine();
+                    System.out.println("Enter Address Book Name:");
+                    bookName = sc.nextLine();
 
-                    addressBook.deleteContact(deleteName);
+                    book = addressBooks.get(bookName);
+
+                    if(book == null) {
+                        System.out.println("Address Book not found");
+                        break;
+                    }
+
+                    System.out.println("Enter name to edit:");
+                    String editName = sc.nextLine();
+
+                    book.editContact(editName);
 
                     break;
 
                 case 5:
 
+                    System.out.println("Enter Address Book Name:");
+                    bookName = sc.nextLine();
+
+                    book = addressBooks.get(bookName);
+
+                    if(book == null) {
+                        System.out.println("Address Book not found");
+                        break;
+                    }
+
+                    System.out.println("Enter name to delete:");
+                    String deleteName = sc.nextLine();
+
+                    book.deleteContact(deleteName);
+
+                    break;
+
+                case 6:
+
                     System.out.println("Exiting program...");
                     return;
 
                 default:
-
                     System.out.println("Invalid choice");
             }
         }
