@@ -86,7 +86,8 @@ public class AddressBookMain {
             System.out.println("12 Sort by City");
             System.out.println("13 Sort by State");
             System.out.println("14 Sort by Zip");
-            System.out.println("15 Back");
+            System.out.println("15 Write Contacts to File");
+            System.out.println("16 Back");
 
             System.out.print("Enter choice: ");
             int choice = sc.nextInt();
@@ -214,8 +215,11 @@ public class AddressBookMain {
                     break;
                     
                 case 15:
-                    return;
+                    book.writeContactsToFile();
+                    break;
                     
+                case 16:
+                    return;
                     
                 default:
                     System.out.println("Invalid choice");
