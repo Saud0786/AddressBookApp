@@ -1,94 +1,140 @@
 package com.saud.addressbookapp;
 
 import java.util.ArrayList;
-import java.util.Map;
+import java.util.Scanner;
+import java.util.*;
+
 
 public class AddressBook {
 
     ArrayList<Contact> contactList = new ArrayList<>();
-
     
-    // Add contact
+    Map<String, List<Contact>> cityMap = new HashMap<>();
+    Map<String, List<Contact>> stateMap = new HashMap<>();
+    
     public void addContact(Contact contact) {
 
-        boolean duplicate = contactList
-                .stream()
-                .anyMatch(existingContact -> existingContact.equals(contact));
+        boolean duplicate = contactList.stream()
+                .anyMatch(c -> c.equals(contact));
 
         if (duplicate) {
-            System.out.println("Duplicate Contact! Person already exists.");
+            System.out.println("Duplicate contact not allowed");
             return;
         }
 
         contactList.add(contact);
-        System.out.println("Contact added successfully.");
-    }
 
-    // Display contact
+        cityMap.computeIfAbsent(contact.city, k -> new ArrayList<>()).add(contact);
+        stateMap.computeIfAbsent(contact.state, k -> new ArrayList<>()).add(contact);
+
+        System.out.println("Contact added successfully");
+    }
+    
     public void displayContacts() {
 
-        if (contactList.isEmpty()) {
+        if(contactList.isEmpty()) {
             System.out.println("No contacts available");
             return;
         }
 
-        contactList.forEach(contact -> {
+        for(Contact contact : contactList) {
             contact.displayContact();
             System.out.println("-------------------");
-        });
+        }
     }
 
-    // Edit contact
     public void editContact(String name) {
 
-        contactList.stream()
-                .filter(contact -> contact.firstName.equalsIgnoreCase(name))
-                .findFirst()
-                .ifPresentOrElse(contact -> {
+        Scanner sc = new Scanner(System.in);
 
-                    System.out.println("Contact found. Updating details...");
+        for(Contact contact : contactList) {
 
-                }, () -> System.out.println("Contact not found"));
+            if(contact.firstName.equals(name)) {
+
+                System.out.println("Enter new Address:");
+                contact.address = sc.nextLine();
+
+                System.out.println("Enter new City:");
+                contact.city = sc.nextLine();
+
+                System.out.println("Enter new State:");
+                contact.state = sc.nextLine();
+
+                System.out.println("Enter new Zip:");
+                contact.zip = sc.nextLine();
+
+                System.out.println("Enter new Phone:");
+                contact.phoneNumber = sc.nextLine();
+
+                System.out.println("Enter new Email:");
+                contact.email = sc.nextLine();
+
+                System.out.println("Contact updated successfully");
+                return;
+            }
+        }
+
+        System.out.println("Contact not found");
     }
 
-    // Delete contact
     public void deleteContact(String name) {
 
-        boolean removed = contactList.removeIf(contact ->
-                contact.firstName.equalsIgnoreCase(name));
+        Contact foundContact = null;
 
-        if (removed)
+        for(Contact contact : contactList) {
+
+            if(contact.firstName.equals(name)) {
+                foundContact = contact;
+                break;
+            }
+        }
+
+        if(foundContact != null) {
+            contactList.remove(foundContact);
             System.out.println("Contact deleted successfully");
-        else
+        }
+        else {
             System.out.println("Contact not found");
+        }
     }
     
-    
-    // Search by City
-    public static void searchPersonByCity(Map<String, AddressBook> addressBooks, String city) {
+    public void searchByCity(String city) {
 
-        addressBooks.values()
-                .stream()
-                .flatMap(book -> book.getContacts().stream())
+        contactList.stream()
                 .filter(contact -> contact.city.equalsIgnoreCase(city))
-                .forEach(contact -> contact.displayContact());
+                .forEach(Contact::displayContact);
     }
-    
-    
-    // Search by State
-    public static void searchPersonByState(Map<String, AddressBook> addressBooks, String state) {
 
-        addressBooks.values()
-                .stream()
-                .flatMap(book -> book.getContacts().stream())
+    public void searchByState(String state) {
+
+        contactList.stream()
                 .filter(contact -> contact.state.equalsIgnoreCase(state))
-                .forEach(contact -> contact.displayContact());
+                .forEach(Contact::displayContact);
     }
     
-    // get contact list
-    public ArrayList<Contact> getContacts() {
-        return contactList;
+    public void viewPersonsByCity(String city) {
+
+        List<Contact> persons = cityMap.get(city);
+
+        if (persons == null || persons.isEmpty()) {
+            System.out.println("No persons found in this city");
+            return;
+        }
+
+        persons.forEach(Contact::displayContact);
     }
     
+    public void viewPersonsByState(String state) {
+
+        List<Contact> persons = stateMap.get(state);
+
+        if (persons == null || persons.isEmpty()) {
+            System.out.println("No persons found in this state");
+            return;
+        }
+
+        persons.forEach(Contact::displayContact);
+    }
     
+   
 }

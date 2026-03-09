@@ -1,7 +1,5 @@
 package com.saud.addressbookapp;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Scanner;
 
 public class AddressBookMain {
@@ -10,22 +8,14 @@ public class AddressBookMain {
 
         Scanner sc = new Scanner(System.in);
 
-        // Dictionary of AddressBookName -> AddressBook
-        Map<String, AddressBook> addressBooks = new HashMap<>();
-        
-
-        System.out.println("Welcome to Address Book System");
+        AddressBookSystem system = new AddressBookSystem();
 
         while (true) {
 
-            System.out.println("\n1. Create New Address Book");
-            System.out.println("2. Add Contact");
-            System.out.println("3. Display Contacts");
-            System.out.println("4. Edit Contact");
-            System.out.println("5. Delete Contact");
-            System.out.println("6. Search Person By State");
-            System.out.println("7. Search Person By City");
-            System.out.println("8. Exit");
+            System.out.println("\n1 Add AddressBook");
+            System.out.println("2 Display AddressBooks");
+            System.out.println("3 Use AddressBook");
+            System.out.println("4 Exit");
 
             System.out.print("Enter choice: ");
             int choice = sc.nextInt();
@@ -35,29 +25,70 @@ public class AddressBookMain {
 
                 case 1:
 
-                    System.out.println("Enter Address Book Name:");
-                    String bookName = sc.nextLine();
+                    System.out.println("Enter AddressBook Name:");
+                    String name = sc.nextLine();
 
-                    if(addressBooks.containsKey(bookName)) {
-                        System.out.println("Address Book already exists");
-                    } else {
-                        addressBooks.put(bookName, new AddressBook());
-                        System.out.println("Address Book created successfully");
-                    }
+                    AddressBook addressBook = new AddressBook();
+
+                    system.addAddressBook(name, addressBook);
 
                     break;
 
                 case 2:
 
-                    System.out.println("Enter Address Book Name:");
-                    bookName = sc.nextLine();
+                    system.displayAddressBooks();
 
-                    AddressBook book = addressBooks.get(bookName);
+                    break;
 
-                    if(book == null) {
-                        System.out.println("Address Book not found");
+                case 3:
+
+                    System.out.println("Enter AddressBook Name to use:");
+                    String bookName = sc.nextLine();
+
+                    AddressBook book = system.getAddressBook(bookName);
+
+                    if (book == null) {
+                        System.out.println("AddressBook not found");
                         break;
                     }
+
+                    manageContacts(book, sc);
+
+                    break;
+
+                case 4:
+
+                    System.out.println("Exiting...");
+                    return;
+
+                default:
+
+                    System.out.println("Invalid choice");
+            }
+        }
+    }
+
+    public static void manageContacts(AddressBook book, Scanner sc) {
+
+        while (true) {
+
+            System.out.println("\n1 Add Contact");
+            System.out.println("2 Display Contacts");
+            System.out.println("3 Edit Contact");
+            System.out.println("4 Delete Contact");
+            System.out.println("5 Search by City");
+            System.out.println("6 Search by State");
+            System.out.println("7 View Persons by City");
+            System.out.println("8 View Persons by State");
+            System.out.println("9 Back");
+
+            System.out.print("Enter choice: ");
+            int choice = sc.nextInt();
+            sc.nextLine();
+
+            switch (choice) {
+
+                case 1:
 
                     System.out.println("Enter First Name:");
                     String firstName = sc.nextLine();
@@ -83,87 +114,67 @@ public class AddressBookMain {
                     System.out.println("Enter Email:");
                     String email = sc.nextLine();
 
-                    Contact contact = new Contact(firstName,lastName,address,city,state,zip,phone,email);
+                    Contact contact = new Contact(firstName, lastName, address, city, state, zip, phone, email);
 
                     book.addContact(contact);
 
                     break;
 
+                case 2:
+
+                    book.displayContacts();
+                    break;
+
                 case 3:
 
-                    System.out.println("Enter Address Book Name:");
-                    bookName = sc.nextLine();
-
-                    book = addressBooks.get(bookName);
-
-                    if(book != null)
-                        book.displayContacts();
-                    else
-                        System.out.println("Address Book not found");
+                    System.out.println("Enter name to edit:");
+                    String editName = sc.nextLine();
+                    book.editContact(editName);
 
                     break;
 
                 case 4:
 
-                    System.out.println("Enter Address Book Name:");
-                    bookName = sc.nextLine();
-
-                    book = addressBooks.get(bookName);
-
-                    if(book == null) {
-                        System.out.println("Address Book not found");
-                        break;
-                    }
-
-                    System.out.println("Enter name to edit:");
-                    String editName = sc.nextLine();
-
-                    book.editContact(editName);
+                    System.out.println("Enter name to delete:");
+                    String deleteName = sc.nextLine();
+                    book.deleteContact(deleteName);
 
                     break;
 
                 case 5:
 
-                    System.out.println("Enter Address Book Name:");
-                    bookName = sc.nextLine();
-
-                    book = addressBooks.get(bookName);
-
-                    if(book == null) {
-                        System.out.println("Address Book not found");
-                        break;
-                    }
-
-                    System.out.println("Enter name to delete:");
-                    String deleteName = sc.nextLine();
-
-                    book.deleteContact(deleteName);
+                    System.out.println("Enter city:");
+                    String searchCity = sc.nextLine();
+                    book.searchByCity(searchCity);
 
                     break;
-                    
+
                 case 6:
 
-                    System.out.println("Enter State:");
-                    String stateName = sc.nextLine();
+                    System.out.println("Enter state:");
+                    String searchState = sc.nextLine();
+                    book.searchByState(searchState);
 
-                    AddressBook.searchPersonByState(addressBooks, stateName);
-
-                    break;  
-                    
+                    break;
                 case 7:
 
-                    System.out.println("Enter City:");
-                    String cityName = sc.nextLine();
+                    System.out.println("Enter city:");
+                    String cityy = sc.nextLine();
+                    book.viewPersonsByCity(cityy);
 
-                    AddressBook.searchPersonByCity(addressBooks, cityName);
+                    break;
 
-                    break;   
-                  
                 case 8:
 
-                    System.out.println("Exiting program...");
-                    return;
+                    System.out.println("Enter state:");
+                    String stat = sc.nextLine();
+                    book.viewPersonsByState(stat);
 
+                    break;
+
+                case 9:
+                    return;
+                    
                 default:
                     System.out.println("Invalid choice");
             }
