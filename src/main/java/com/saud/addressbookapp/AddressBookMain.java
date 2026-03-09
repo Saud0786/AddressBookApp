@@ -23,8 +23,8 @@ public class AddressBookMain {
             System.out.println("3. Display Contacts");
             System.out.println("4. Edit Contact");
             System.out.println("5. Delete Contact");
-            System.out.println("6. Search Person By City");
-            System.out.println("7. Search Person By State");
+            System.out.println("6. Search Person By State");
+            System.out.println("7. Search Person By City");
             System.out.println("8. Exit");
 
             System.out.print("Enter choice: ");
@@ -140,24 +140,25 @@ public class AddressBookMain {
                     book.deleteContact(deleteName);
 
                     break;
-                
+                    
                 case 6:
-
-                    System.out.println("Enter City:");
-                    String cityName = sc.nextLine();
-
-                    AddressBook.searchPersonByCity(addressBooks, cityName);
-                    break;    
-
-                case 7:
 
                     System.out.println("Enter State:");
                     String stateName = sc.nextLine();
 
                     AddressBook.searchPersonByState(addressBooks, stateName);
 
-                    break;
+                    break;  
                     
+                case 7:
+
+                    System.out.println("Enter City:");
+                    String cityName = sc.nextLine();
+
+                    AddressBook.searchPersonByCity(addressBooks, cityName);
+
+                    break;   
+                  
                 case 8:
 
                     System.out.println("Exiting program...");
