@@ -88,7 +88,8 @@ public class AddressBookMain {
             System.out.println("14 Sort by Zip");
             System.out.println("15 Write Contacts to File");
             System.out.println("15 Write Contacts to File");
-            System.out.println("16 Back");
+            System.out.println("17 Write Contacts to JSON");
+            System.out.println("18 Back");
 
             System.out.print("Enter choice: ");
             int choice = sc.nextInt();
@@ -224,8 +225,11 @@ public class AddressBookMain {
                     break;
                     
                 case 17:
+                    book.writeContactsToJSON();
+                    break;
+
+                case 18:
                     return;
-                    
                     
                 default:
                     System.out.println("Invalid choice");
