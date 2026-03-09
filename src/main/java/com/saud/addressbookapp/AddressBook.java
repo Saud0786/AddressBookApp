@@ -1,11 +1,14 @@
 package com.saud.addressbookapp;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public class AddressBook {
 
     ArrayList<Contact> contactList = new ArrayList<>();
 
+    
+    // Add contact
     public void addContact(Contact contact) {
 
         boolean duplicate = contactList
@@ -21,6 +24,7 @@ public class AddressBook {
         System.out.println("Contact added successfully.");
     }
 
+    // Display contact
     public void displayContacts() {
 
         if (contactList.isEmpty()) {
@@ -34,6 +38,7 @@ public class AddressBook {
         });
     }
 
+    // Edit contact
     public void editContact(String name) {
 
         contactList.stream()
@@ -46,6 +51,7 @@ public class AddressBook {
                 }, () -> System.out.println("Contact not found"));
     }
 
+    // Delete contact
     public void deleteContact(String name) {
 
         boolean removed = contactList.removeIf(contact ->
@@ -56,4 +62,33 @@ public class AddressBook {
         else
             System.out.println("Contact not found");
     }
+    
+    
+    // Search by City
+    public static void searchPersonByCity(Map<String, AddressBook> addressBooks, String city) {
+
+        addressBooks.values()
+                .stream()
+                .flatMap(book -> book.getContacts().stream())
+                .filter(contact -> contact.city.equalsIgnoreCase(city))
+                .forEach(contact -> contact.displayContact());
+    }
+    
+    
+    // Search by State
+    public static void searchPersonByState(Map<String, AddressBook> addressBooks, String state) {
+
+        addressBooks.values()
+                .stream()
+                .flatMap(book -> book.getContacts().stream())
+                .filter(contact -> contact.state.equalsIgnoreCase(state))
+                .forEach(contact -> contact.displayContact());
+    }
+    
+    // get contact list
+    public ArrayList<Contact> getContacts() {
+        return contactList;
+    }
+    
+    
 }
