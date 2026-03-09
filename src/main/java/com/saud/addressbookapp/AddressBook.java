@@ -1,4 +1,4 @@
-package com.addressbook;
+package com.saud.addressbookapp;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -158,6 +158,30 @@ public class AddressBook {
 
         contactList.stream()
                 .sorted((c1, c2) -> c1.firstName.compareToIgnoreCase(c2.firstName))
+                .forEach(Contact::displayContact);
+    }
+    
+    
+    public void sortByCity() {
+
+        contactList.stream()
+                .sorted((c1, c2) -> c1.city.compareToIgnoreCase(c2.city))
+                .forEach(Contact::displayContact);
+    }
+    
+    
+    
+    public void sortByState() {
+
+        contactList.stream()
+                .sorted((c1, c2) -> c1.state.compareToIgnoreCase(c2.state))
+                .forEach(Contact::displayContact);
+    }
+    
+    public void sortByZip() {
+
+        contactList.stream()
+                .sorted((c1, c2) -> c1.zip.compareToIgnoreCase(c2.zip))
                 .forEach(Contact::displayContact);
     }
     
