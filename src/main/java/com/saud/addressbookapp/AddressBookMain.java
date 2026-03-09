@@ -1,5 +1,6 @@
 package com.saud.addressbookapp;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class AddressBookMain {
@@ -89,7 +90,8 @@ public class AddressBookMain {
             System.out.println("15 Write Contacts to File");
             System.out.println("15 Write Contacts to File");
             System.out.println("17 Write Contacts to JSON");
-            System.out.println("18 Back");
+            System.out.println("18 Retrieve data from database");
+            System.out.println("19 Back");
 
             System.out.print("Enter choice: ");
             int choice = sc.nextInt();
@@ -229,6 +231,12 @@ public class AddressBookMain {
                     break;
 
                 case 18:
+                	AddressBookDBService addressDB = new AddressBookDBService();
+                	List<Contact> contacts = addressDB.retrieveContactsFromDB();
+                	for(Contact c:contacts) {
+                		System.out.println(c);
+                	}
+                case 19:
                     return;
                     
                 default:

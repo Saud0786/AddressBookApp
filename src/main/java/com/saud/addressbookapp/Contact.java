@@ -46,6 +46,21 @@ public class Contact {
         return Objects.hash(firstName.toLowerCase(), lastName.toLowerCase());
     }
 
+    @Override
+    public String toString() {
+        return "Contact{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", address='" + address + '\'' +
+                ", city='" + city + '\'' +
+                ", state='" + state + '\'' +
+                ", zip='" + zip + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", email='" + email + '\'' +
+                '}';
+    }
+
+    
     public void displayContact() {
 
         System.out.println("First Name: " + firstName);
