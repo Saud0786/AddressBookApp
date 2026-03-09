@@ -1,4 +1,3 @@
-
 package com.saud.addressbookapp;
 
 import java.util.Scanner;
@@ -192,9 +191,8 @@ public class AddressBookMain {
                     book.countByState(stateCount);
 
                     break;
-                    
                 case 11:
-                    return;
+                	return;
                     
                 default:
                     System.out.println("Invalid choice");
